@@ -1,10 +1,5 @@
-import HelloWorld from "@/components/HelloWorld";
-import "./App.css";
+import { MainScreen } from "@/components/MainScreen/MainScreen";
 
 export default function App() {
-  return (
-    <div className="panelWrapper">
-      <HelloWorld />
-    </div>
-  );
+  return <MainScreen />;
 }
