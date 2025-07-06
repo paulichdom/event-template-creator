@@ -9,4 +9,6 @@ export interface TemplateFormValues {
 
 export interface Template extends TemplateFormValues {
   id: string;
+  createdAt: string;
+  updatedAt: string;
 }
