@@ -95,6 +95,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
           </Tooltip>
         }
       />
+      <Divider />
       <CardActions disableSpacing>
         <Tooltip title="Edit Template">
           <IconButton
@@ -123,7 +124,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Divider sx={{ mb: 3 }} />
+          {/* <Divider sx={{ mb: 3 }} /> */}
           <Stack
             sx={{
               flexDirection: "column",
