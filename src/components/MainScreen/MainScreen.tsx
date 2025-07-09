@@ -6,20 +6,47 @@ import {
   Button,
   Box,
   Container,
+  ListItem,
+  IconButton,
+  ListItemText,
+  ListItemAvatar,
+  List,
+  Avatar,
+  styled,
+  Stack,
+  Fab,
+  Divider,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import FolderIcon from "@mui/icons-material/Folder";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
+import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
+import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
+import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import { TemplateModal } from "../TemplateModal/TemplateModal";
 import { TemplateList } from "../TemplateList/TemplateList";
 import { Template, TemplateFormValues } from "../../types/template";
 import { TemplateFormContent } from "../TemplateFormContent/TemplateFormContent";
 import { mockTemplates } from "../../data/mockTemplates";
-import "./MainScreen.css";
+import { TemplateCard } from "../TemplateCard/TemplateCard";
 
 export const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentTemplate, setCurrentTemplate] = useState<TemplateFormValues | null>(null);
+  const [currentTemplate, setCurrentTemplate] =
+    useState<TemplateFormValues | null>(null);
 
-  const formRef = useRef<{ setFieldsValue: (values: TemplateFormValues) => void; resetFields: () => void; submit: () => void }>({
+  const [dense, setDense] = React.useState(false);
+  const [secondary, setSecondary] = React.useState(false);
+
+  const formRef = useRef<{
+    setFieldsValue: (values: TemplateFormValues) => void;
+    resetFields: () => void;
+    submit: () => void;
+  }>({
     setFieldsValue: (values: TemplateFormValues) => {
       setCurrentTemplate(values);
     },
@@ -64,10 +91,19 @@ export const MainScreen = () => {
     // In a real application, you would use the template here
   };
 
+  const StyledFab = styled(Fab)({
+    position: "absolute",
+    zIndex: 1,
+    top: -30,
+    left: 0,
+    right: 0,
+    margin: "0 auto",
+  });
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar className="header">
+        <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Event Templates
           </Typography>
@@ -80,7 +116,7 @@ export const MainScreen = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <Container className="content" sx={{ mt: 4 }}>
+      <Container sx={{ mt: 4 }}>
         <TemplateList
           mockTemplates={mockTemplates}
           handleDelete={handleDelete}
@@ -93,8 +129,28 @@ export const MainScreen = () => {
         handleCancel={handleCancel}
         form={formRef.current}
       >
-        <TemplateFormContent form={formRef.current} onFinish={handleFormSubmit} />
+        <TemplateFormContent
+          form={formRef.current}
+          onFinish={handleFormSubmit}
+        />
       </TemplateModal>
+      <AppBar position="fixed" color="primary" sx={{ top: "auto", bottom: 0 }}>
+        <Toolbar>
+          <IconButton color="inherit" aria-label="open drawer">
+            <MenuIcon />
+          </IconButton>
+          <StyledFab color="primary" aria-label="add">
+            <AddIcon />
+          </StyledFab>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton color="inherit">
+            <SearchIcon />
+          </IconButton>
+          <IconButton color="inherit">
+            <MoreIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 };
