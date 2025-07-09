@@ -15,8 +15,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Tooltip from "@mui/material/Tooltip";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Template } from "../../types/template";
@@ -78,29 +77,31 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   };
 
   return (
-    <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
+    <Card variant="outlined" sx={{ maxWidth: 345, marginBottom: 2 }}>
       <CardHeader
         avatar={
           <Avatar aria-label="template-name">{item.templateName[0]}</Avatar>
         }
         title={item.templateName}
         subheader={item.eventTitle}
+        action={
+          <Tooltip title="Use Template">
+            <IconButton
+              aria-label="use template"
+              onClick={() => handleUseTemplate(item)}
+            >
+              <OpenInNewRoundedIcon fontSize="small" color="primary" />
+            </IconButton>
+          </Tooltip>
+        }
       />
       <CardActions disableSpacing>
-        <Tooltip title="Use Template">
-          <IconButton
-            aria-label="use template"
-            onClick={() => handleUseTemplate(item)}
-          >
-            <RocketLaunchIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
         <Tooltip title="Edit Template">
           <IconButton
             aria-label="edit template"
             onClick={() => showModal(item)}
           >
-            <EditIcon fontSize="small" />
+            <EditIcon fontSize="small" color="action" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete Template">
@@ -108,7 +109,7 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
             aria-label="delete template"
             onClick={handleDeleteConfirmOpen}
           >
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small" color="error" />
           </IconButton>
         </Tooltip>
         <ExpandMore
