@@ -16,9 +16,18 @@ import DialogActions from "@mui/material/DialogActions";
 import Tooltip from "@mui/material/Tooltip";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Template } from "../../types/template";
+import { Divider, Stack } from "@mui/material";
+import {
+  AccessTime,
+  MeetingRoom,
+  People,
+  PinDrop,
+  SubjectOutlined,
+} from "@mui/icons-material";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -71,24 +80,35 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
   return (
     <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
       <CardHeader
-        avatar={<Avatar aria-label="template-name">{item.templateName[0]}</Avatar>}
+        avatar={
+          <Avatar aria-label="template-name">{item.templateName[0]}</Avatar>
+        }
         title={item.templateName}
         subheader={item.eventTitle}
       />
       <CardActions disableSpacing>
         <Tooltip title="Use Template">
-          <IconButton aria-label="use template" onClick={() => handleUseTemplate(item)}>
-            <RocketLaunchIcon />
+          <IconButton
+            aria-label="use template"
+            onClick={() => handleUseTemplate(item)}
+          >
+            <RocketLaunchIcon fontSize="small" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Edit Template">
-          <IconButton aria-label="edit template" onClick={() => showModal(item)}>
-            <EditIcon />
+          <IconButton
+            aria-label="edit template"
+            onClick={() => showModal(item)}
+          >
+            <EditIcon fontSize="small" />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete Template">
-          <IconButton aria-label="delete template" onClick={handleDeleteConfirmOpen}>
-            <DeleteIcon />
+          <IconButton
+            aria-label="delete template"
+            onClick={handleDeleteConfirmOpen}
+          >
+            <DeleteIcon fontSize="small" />
           </IconButton>
         </Tooltip>
         <ExpandMore
@@ -102,13 +122,87 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Description:</Typography>
-          <Typography paragraph>{item.description || "No description provided."}</Typography>
-          <Typography paragraph>Duration: {item.duration} minutes</Typography>
-          <Typography paragraph>Location: {item.location || "Not specified."}</Typography>
-          <Typography paragraph>
-            Attendees: {item.attendees && item.attendees.length > 0 ? item.attendees.join(", ") : "No attendees specified."}
-          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Stack
+            sx={{
+              flexDirection: "column",
+              alignSelf: "center",
+              gap: 4,
+              maxWidth: 450,
+            }}
+          >
+            <Stack direction="row" sx={{ gap: 2 }}>
+              <SubjectOutlined fontSize="small" color="action" />
+              <div>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{ fontWeight: "medium", color: "text.secondary" }}
+                >
+                  Description
+                </Typography>
+                <Typography variant="body2">{item.description}</Typography>
+              </div>
+            </Stack>
+            <Stack direction="row" sx={{ gap: 2 }}>
+              <AccessTime fontSize="small" color="action" />
+              <div>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{ fontWeight: "medium", color: "text.secondary" }}
+                >
+                  Duration
+                </Typography>
+                <Typography variant="body2">{item.duration} minutes</Typography>
+              </div>
+            </Stack>
+            <Stack direction="row" sx={{ gap: 2 }}>
+              <PinDrop fontSize="small" color="action" />
+              <div>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{ fontWeight: "medium", color: "text.secondary" }}
+                >
+                  Location
+                </Typography>
+                <Typography variant="body2">
+                  {item.location || "Not specified."}
+                </Typography>
+              </div>
+            </Stack>
+            <Stack direction="row" sx={{ gap: 2 }}>
+              <People fontSize="small" color="action" />
+              <div>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{ fontWeight: "medium", color: "text.secondary" }}
+                >
+                  Attendees
+                </Typography>
+                <Typography variant="body2">
+                  {item.attendees && item.attendees.length > 0
+                    ? item.attendees.join(", ")
+                    : "No attendees specified."}
+                </Typography>
+              </div>
+            </Stack>
+            <Stack direction="row" sx={{ gap: 2 }}>
+              <MeetingRoom fontSize="small" color="action" />
+              <div>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{ fontWeight: "medium", color: "text.secondary" }}
+                >
+                  Meeting Room
+                </Typography>
+                <Typography variant="body2">Not specified</Typography>
+              </div>
+            </Stack>
+          </Stack>
         </CardContent>
       </Collapse>
       <Dialog
@@ -117,7 +211,9 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         aria-labelledby="delete-dialog-title"
         aria-describedby="delete-dialog-description"
       >
-        <DialogTitle id="delete-dialog-title">{"Delete this template?"}</DialogTitle>
+        <DialogTitle id="delete-dialog-title">
+          {"Delete this template?"}
+        </DialogTitle>
         <DialogContent>
           <Typography id="delete-dialog-description">
             Are you sure you want to delete the template: {item.templateName}?
@@ -125,7 +221,11 @@ export const TemplateCard: React.FC<TemplateCardProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteConfirmClose}>No</Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained">
+          <Button
+            onClick={handleConfirmDelete}
+            color="error"
+            variant="contained"
+          >
             Yes
           </Button>
         </DialogActions>

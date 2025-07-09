@@ -116,7 +116,7 @@ export const MainScreen = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ mt: 2 }}>
         <TemplateList
           mockTemplates={mockTemplates}
           handleDelete={handleDelete}
