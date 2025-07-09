@@ -22,8 +22,3 @@ body {
 }
 
 /* Make sure the text in the list doesn't wrap awkwardly */
-.ant-list-item-meta-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

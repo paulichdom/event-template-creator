@@ -1,5 +1,11 @@
-import { Modal, Button } from "antd";
 import React from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
 
 interface TemplateModalProps {
   isModalVisible: boolean;
@@ -15,20 +21,15 @@ export const TemplateModal: React.FC<TemplateModalProps> = ({
   form,
 }) => {
   return (
-    <Modal
-      title="Create/Edit Template"
-      open={isModalVisible}
-      onCancel={handleCancel}
-      footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
-        </Button>,
-        <Button key="submit" type="primary" onClick={() => form.submit()}>
+    <Dialog open={isModalVisible} onClose={handleCancel}>
+      <DialogTitle>Create/Edit Template</DialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel}>Cancel</Button>
+        <Button variant="contained" onClick={() => form.submit()}>
           Save
-        </Button>,
-      ]}
-    >
-      {children}
-    </Modal>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };

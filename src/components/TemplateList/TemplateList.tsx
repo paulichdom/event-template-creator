@@ -1,6 +1,6 @@
-import { List } from "antd";
 import { TemplateListItem } from "../TemplateListItem/TemplateListItem";
 import { Template } from "../../types/template";
+import { List } from "@mui/material";
 
 interface TemplateListProps {
   mockTemplates: Template[];
@@ -16,17 +16,16 @@ export const TemplateList: React.FC<TemplateListProps> = ({
   handleDelete,
 }) => {
   return (
-    <List
-      itemLayout="horizontal"
-      dataSource={mockTemplates}
-      renderItem={(item) => (
+    <List>
+      {mockTemplates.map((item) => (
         <TemplateListItem
+          key={item.id} // Assuming each template has a unique 'id'
           item={item}
           handleUseTemplate={handleUseTemplate}
           showModal={showModal}
           handleDelete={handleDelete}
         />
-      )}
-    />
+      ))}
+    </List>
   );
 }; 

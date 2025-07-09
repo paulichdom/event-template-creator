@@ -1,6 +1,13 @@
-import { useState } from "react";
-import { Layout, Button, Typography, Form } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useState, useRef } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Container,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { TemplateModal } from "../TemplateModal/TemplateModal";
 import { TemplateList } from "../TemplateList/TemplateList";
 import { Template, TemplateFormValues } from "../../types/template";
@@ -8,19 +15,29 @@ import { TemplateFormContent } from "../TemplateFormContent/TemplateFormContent"
 import { mockTemplates } from "../../data/mockTemplates";
 import "./MainScreen.css";
 
-const { Header, Content } = Layout;
-const { Title } = Typography;
-
 export const MainScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm();
+  const [currentTemplate, setCurrentTemplate] = useState<TemplateFormValues | null>(null);
+
+  const formRef = useRef<{ setFieldsValue: (values: TemplateFormValues) => void; resetFields: () => void; submit: () => void }>({
+    setFieldsValue: (values: TemplateFormValues) => {
+      setCurrentTemplate(values);
+    },
+    resetFields: () => {
+      setCurrentTemplate(null);
+    },
+    submit: () => {
+      // This will be called from TemplateModal, and handleFormSubmit will be triggered by the native form submit event in TemplateFormContent
+    },
+  });
 
   const showModal = (template: Template | null = null) => {
     if (template) {
       console.log("Showing modal to edit:", template.templateName);
-      form.setFieldsValue(template as TemplateFormValues); // Pre-fill form for editing, now template conforms to form values
+      formRef.current.setFieldsValue(template as TemplateFormValues); // Pre-fill form for editing
     } else {
       console.log("Showing modal to create a new template.");
+      formRef.current.resetFields();
     }
     setIsModalVisible(true);
   };
@@ -28,51 +45,56 @@ export const MainScreen = () => {
   const handleCancel = () => {
     console.log("Modal cancelled.");
     setIsModalVisible(false);
-    form.resetFields();
+    formRef.current.resetFields();
   };
 
   const handleFormSubmit = (values: TemplateFormValues) => {
     console.log("Form submitted with values:", values);
+    // In a real application, you would save/update the template here
     handleCancel(); // Close the modal after submission
   };
 
   const handleDelete = (id: string) => {
     console.log("Attempting to delete template with id:", id);
+    // In a real application, you would delete the template here
   };
 
   const handleUseTemplate = (template: Template) => {
     console.log("Attempting to use template:", template.templateName);
+    // In a real application, you would use the template here
   };
 
   return (
-    <Layout className="layout-container">
-      <Header className="header">
-        <Title level={4} style={{ color: "white", margin: 0 }}>
-          Event Templates
-        </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => showModal()}
-        >
-          New
-        </Button>
-      </Header>
-      <Content className="content">
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar className="header">
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Event Templates
+          </Typography>
+          <Button
+            color="inherit"
+            startIcon={<AddIcon />}
+            onClick={() => showModal()}
+          >
+            New
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Container className="content" sx={{ mt: 4 }}>
         <TemplateList
           mockTemplates={mockTemplates}
           handleDelete={handleDelete}
           handleUseTemplate={handleUseTemplate}
           showModal={showModal}
         />
-      </Content>
+      </Container>
       <TemplateModal
         isModalVisible={isModalVisible}
         handleCancel={handleCancel}
-        form={form}
+        form={formRef.current}
       >
-        <TemplateFormContent form={form} onFinish={handleFormSubmit} />
+        <TemplateFormContent form={formRef.current} onFinish={handleFormSubmit} />
       </TemplateModal>
-    </Layout>
+    </Box>
   );
 };
